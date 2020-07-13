@@ -35,7 +35,7 @@ set -e
 
 # Default settings
 ZSH=${ZSH:-~/.oh-my-zsh}
-REPO=${REPO:-ohmyzsh/ohmyzsh}
+REPO=${REPO:-AlexanderLieret/ohmyzsh}
 REMOTE=${REMOTE:-https://github.com/${REPO}.git}
 BRANCH=${BRANCH:-master}
 
@@ -139,7 +139,7 @@ setup_zshrc() {
 
 	sed "/^export ZSH=/ c\\
 export ZSH=\"$ZSH\"
-" "$ZSH/templates/zshrc.zsh-template" > ~/.zshrc-omztemp
+" "$ZSH/templates/my-zshrc.zsh-template" > ~/.zshrc-omztemp
 	mv -f ~/.zshrc-omztemp ~/.zshrc
 
 	echo
