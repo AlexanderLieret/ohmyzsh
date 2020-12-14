@@ -73,14 +73,25 @@ genpass-monkey() {
 
 genpass-xkcd() {
   # Generates a 128-bit XKCD-style passphrase
-  # EG, 9-mien-flood-Patti-buxom-dozes-ickier-pay-ailed-Foster
+  # e.g, 9-mien-flood-Patti-buxom-dozes-ickier-pay-ailed-Foster
   # Can take a numerical argument for generating extra passwords
+
+  if (( ! $+commands[shuf] )); then
+    echo >&2 "$0: \`shuf\` command not found. Install coreutils (\`brew install coreutils\` on macOS)."
+    return 1
+  fi
+
+  if [[ ! -e /usr/share/dict/words ]]; then
+    echo >&2 "$0: no wordlist found in \`/usr/share/dict/words\`. Install one first."
+    return 1
+  fi
+
   local -i i num
 
   [[ $1 =~ '^[0-9]+$' ]] && num=$1 || num=1
 
   # Get all alphabetic words of at most 6 characters in length
-  local dict=$(LC_ALL=C grep -E '^[a-zA-Z]{,6}$' /usr/share/dict/words)
+  local dict=$(LC_ALL=C grep -E '^[a-zA-Z]{1,6}$' /usr/share/dict/words)
 
   # Calculate the base-2 entropy of each word in $dict
   # Entropy is e = L * log2(C), where L is the length of the password (here,
@@ -90,6 +101,6 @@ genpass-xkcd() {
 
   for i in {1..$num}; do
     printf "$n-"
-    printf "$dict" | shuf -n "$n" | paste -sd '-'
+    printf "$dict" | shuf -n "$n" | paste -sd '-' -
   done
 }
