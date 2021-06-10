@@ -104,3 +104,6 @@ if [ -f "~/.zshrc.local" ]; then
 	source "~/.zshrc.local"
 fi
 
+export PATH="~/.local/bin:$PATH"
+mkcd() { mkdir -p "$1" && cd "$1"; }
+
